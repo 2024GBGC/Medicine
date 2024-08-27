@@ -6,13 +6,10 @@ public class LineActiveButton : MonoBehaviour
     [SerializeField] private int linePrice;
     [SerializeField] private Button activeButton;
     [SerializeField] private int currentLine;
-    [SerializeField] private float productionSpeed = 1;
-    private float _timer;
 
     private void Start()
     {
         activeButton.onClick.AddListener(BuyLine);
-        _timer = 0;
     }
 
     private void BuyLine()
@@ -20,7 +17,8 @@ public class LineActiveButton : MonoBehaviour
         if (MainInventory.Instance.credit >= linePrice)
         {
             MainInventory.Instance.credit -= linePrice;
-            ActiveLine();
+            GridSlotManager.Instance.BuyGridSlot(currentLine);
+            // button binding
             activeButton.onClick.RemoveAllListeners();
             activeButton.onClick.AddListener(ActiveLine);
         }
@@ -29,21 +27,5 @@ public class LineActiveButton : MonoBehaviour
     private void ActiveLine()
     {
         GridSlotManager.Instance.ActiveGridSlot(currentLine);
-    }
-
-    private void OperateProductionLine(int potionPrice)
-    {
-        _timer += Time.deltaTime;
-
-        if (_timer >= (5 / productionSpeed))
-        {
-            _timer = 0;
-            MainInventory.Instance.IncreaseCredit(potionPrice);
-        }
-    }
-
-    public void IncreaseProductionSpeed()
-    {
-        productionSpeed += 0.5f;
     }
 }

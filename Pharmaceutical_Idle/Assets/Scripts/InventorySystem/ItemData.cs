@@ -6,8 +6,10 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     public int itemID;
+    public string itemName;
 
     public int itemCost;
+    public int itemPrice;
     
     public int width = 1;
     public int height = 1;

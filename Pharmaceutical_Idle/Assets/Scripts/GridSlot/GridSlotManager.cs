@@ -1,22 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GridSlotManager : Singleton<GridSlotManager>
 {
-    [SerializeField] private List<GameObject> gridSlot;
+    [SerializeField] private List<PotManager> pots;
+
+    private void Start()
+    {
+        pots[0].SetActivePot();
+        ActiveGridSlot(0);
+    }
+
+    public void BuyGridSlot(int gridSlotIndex)
+    {
+        pots[gridSlotIndex].SetActivePot();
+    }
     
     public void ActiveGridSlot(int activeIndex)
     {
-        foreach (GameObject slot in gridSlot)
+        foreach (var pot in pots)
         {
-            slot.SetActive(false);
+            pot.TogglePot(false);
         }
-        gridSlot[activeIndex].SetActive(true);
-    }
-
-    public void GetPotionPrice(int activeIndex)
-    {
-        //gridSlot[activeIndex].GetComponentInChildren<ItemGrid>().
+        pots[activeIndex].TogglePot(true);
     }
 }

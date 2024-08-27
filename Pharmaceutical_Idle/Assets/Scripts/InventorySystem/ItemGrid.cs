@@ -242,4 +242,9 @@ public class ItemGrid : MonoBehaviour
         }
         return false;
     }
+    
+    public Dictionary<int,int> GetItemDict()
+    {
+        return _itemDict;
+    }
 }
