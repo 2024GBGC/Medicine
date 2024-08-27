@@ -14,4 +14,9 @@ public class GridSlotManager : Singleton<GridSlotManager>
         }
         gridSlot[activeIndex].SetActive(true);
     }
+
+    public void GetPotionPrice(int activeIndex)
+    {
+        //gridSlot[activeIndex].GetComponentInChildren<ItemGrid>().
+    }
 }

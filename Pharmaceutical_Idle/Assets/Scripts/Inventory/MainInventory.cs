@@ -37,4 +37,9 @@ public class MainInventory : Singleton<MainInventory>
             _itemDict[itemID] -= amount;
         }
     }
+
+    public void IncreaseCredit(int potionPrice)
+    {
+        credit += potionPrice;
+    }
 }

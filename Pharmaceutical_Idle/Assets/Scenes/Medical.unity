@@ -1675,6 +1675,7 @@ MonoBehaviour:
   linePrice: 0
   activeButton: {fileID: 1581092166}
   currentLine: 0
+  productionSpeed: 0
 --- !u!114 &1581092166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,6 +2060,7 @@ MonoBehaviour:
   linePrice: 0
   activeButton: {fileID: 1873303844}
   currentLine: 2
+  productionSpeed: 0
 --- !u!114 &1873303844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2197,6 +2199,7 @@ MonoBehaviour:
   linePrice: 0
   activeButton: {fileID: 1876236476}
   currentLine: 1
+  productionSpeed: 0
 --- !u!114 &1876236476
 MonoBehaviour:
   m_ObjectHideFlags: 0
