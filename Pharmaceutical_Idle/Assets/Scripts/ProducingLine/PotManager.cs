@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PotManager : MonoBehaviour
 {
     public bool isActive = false;
+    [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject PotObject;
     [SerializeField] private ItemGrid itemGrid;
     [SerializeField] private int potionPrice;
@@ -23,7 +24,7 @@ public class PotManager : MonoBehaviour
 
     public void TogglePot(bool isActive)
     {
-        PotObject.SetActive(isActive);
+        canvasGroup.alpha = isActive ? 1 : 0;
     }
 
     private void SetItem()
