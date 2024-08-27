@@ -12,8 +12,8 @@ public class ItemGrid : MonoBehaviour
 
     RectTransform rectTransform; 
 
-    [SerializeField] int girdSizeWidth = 20;
-    [SerializeField] int girdSizeHeight = 10;
+    [SerializeField] int girdSizeWidth = 2;
+    [SerializeField] int girdSizeHeight = 2;
     
     Vector2 positionOntheGrid = new Vector2();  //Inventory상의 기준점 설정
     Vector2Int tileGridePosition = new Vector2Int();
@@ -26,8 +26,15 @@ public class ItemGrid : MonoBehaviour
         Init(girdSizeWidth, girdSizeHeight);
     }
 
+    public void UpgradePot()
+    {
+        girdSizeWidth += 1;
+        girdSizeHeight += 1;
+        Init(girdSizeWidth, girdSizeHeight);
+    }
+
     //Set Inventory size
-    public void Init(int width, int height)
+    private void Init(int width, int height)
     {
         girdSizeWidth = width;
         girdSizeHeight = height;
