@@ -17,7 +17,7 @@ public class LineActiveButton : MonoBehaviour
         if (MainInventory.Instance.credit >= linePrice)
         {
             MainInventory.Instance.credit -= linePrice;
-            GridSlotManager.Instance.BuyGridSlot(currentLine);
+            PotSlotManager.Instance.BuyGridSlot(currentLine);
             // button binding
             activeButton.onClick.RemoveAllListeners();
             activeButton.onClick.AddListener(ActiveLine);
@@ -26,6 +26,6 @@ public class LineActiveButton : MonoBehaviour
 
     private void ActiveLine()
     {
-        GridSlotManager.Instance.ActiveGridSlot(currentLine);
+        PotSlotManager.Instance.ActiveGridSlot(currentLine);
     }
 }

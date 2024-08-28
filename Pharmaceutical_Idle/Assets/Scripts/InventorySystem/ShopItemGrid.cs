@@ -6,11 +6,11 @@ public class ShopItemGrid : ItemGrid
 {
     public bool isItemOnGrid = false;
 
-    public override bool PlaceItem(InventoryItem inventoryItem, int posX, int posY)
+    public override bool PlaceItem(InventoryItem inventoryItem, int posX, int posY, bool isUpgrade = false)
     {
         if (isItemOnGrid) return false;
         
-        if (base.PlaceItem(inventoryItem, posX, posY))
+        if (base.PlaceItem(inventoryItem, posX, posY, isUpgrade))
         {
             isItemOnGrid = true;
             return true;

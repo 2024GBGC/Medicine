@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,17 +10,35 @@ public class CategoryManager : MonoBehaviour
     
     [SerializeField] private List<GameObject> categoryObjects;
     
+    private int currentCategoryIndex = -1;
+
     private void Start()
     {
-        int index = 0;
-        foreach (var category in categories)
+        foreach (Button button in categories)
         {
-            category.onClick.AddListener(() => SelectCategory(index++));
+            button.onClick.AddListener(() =>
+            {
+                ToggleCategory(categories.IndexOf(button));
+            });
         }
     }
 
-    private void SelectCategory(int index)
+    private void ToggleCategory(int categoryIndex)
     {
-        categoryObjects[index].SetActive(true);
+        foreach (var category in categoryObjects)
+        {
+            category.GetComponent<CanvasGroup>().alpha = 0;
+        }
+        if(currentCategoryIndex == categoryIndex)
+        {
+            currentCategoryIndex = -1;
+            categoryObjects[categoryIndex].GetComponent<CanvasGroup>().alpha = 0;
+            return;
+        }
+
+        categoryObjects[categoryIndex].GetComponent<CanvasGroup>().alpha = 1;
+        currentCategoryIndex = categoryIndex;
+        categoryObjects[categoryIndex].GetComponent<RectTransform>().SetAsLastSibling();
     }
+    
 }

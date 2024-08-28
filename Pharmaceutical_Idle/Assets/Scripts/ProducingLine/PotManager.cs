@@ -81,13 +81,17 @@ public class PotManager : MonoBehaviour
         StartCoroutine(MakePotion()); // 코루틴 재시작
     }
 
-    public void UpgradePotFire()
+    public void UpgradePot(bool isFireUpgrade)
     {
-        potionCreationTime -= 1;
-    }
-    
-    public void UpgradePotSize()
-    {
-        itemGrid.UpgradePot();
+        if (isFireUpgrade)
+        {
+            potionCreationTime -= 1;
+            Debug.Log(this.name + " Upgrade Fire Complete! : " + potionCreationTime);
+        }
+        else
+        {
+            itemGrid.UpgradePot();
+            Debug.Log(this.name + " Upgrade Size Complete!");
+        }
     }
 }

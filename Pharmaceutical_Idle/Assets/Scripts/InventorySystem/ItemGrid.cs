@@ -30,7 +30,22 @@ public class ItemGrid : MonoBehaviour
     {
         girdSizeWidth += 1;
         girdSizeHeight += 1;
+        
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            if(transform.GetChild(i).gameObject.GetComponent<InventoryItem>() != null)
+                Destroy(transform.GetChild(i).gameObject);
+        }
+        
         Init(girdSizeWidth, girdSizeHeight);
+        
+        foreach (var item in _itemDict)
+        {
+            for (int i = 0; i < item.Value; i++)
+            {
+                AddItem(item.Key, true);
+            }
+        }
     }
 
     //Set Inventory size
@@ -45,11 +60,11 @@ public class ItemGrid : MonoBehaviour
     
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)    
     {
-        positionOntheGrid.x = mousePosition.x - rectTransform.position.x;
-        positionOntheGrid.y = rectTransform.position.y - mousePosition.y;
+        positionOntheGrid.x = mousePosition.x - (rectTransform.position.x - rectTransform.rect.width * rectTransform.pivot.x);
+        positionOntheGrid.y = (rectTransform.position.y + rectTransform.rect.height * rectTransform.pivot.y) - mousePosition.y;
 
-        tileGridePosition.x = (int)(positionOntheGrid.x/tileSizeWidth);
-        tileGridePosition.y = (int)(positionOntheGrid.y/tileSizeHeight);
+        tileGridePosition.x = (int)(positionOntheGrid.x / tileSizeWidth);
+        tileGridePosition.y = (int)(positionOntheGrid.y / tileSizeHeight);
         return tileGridePosition;
     }
 
@@ -69,7 +84,7 @@ public class ItemGrid : MonoBehaviour
         return true;
     }
     
-    public virtual bool PlaceItem(InventoryItem inventoryItem, int posX, int posY)
+    public virtual bool PlaceItem(InventoryItem inventoryItem, int posX, int posY, bool isUpgrade = false)
     {
         if(!CheckPlaceItem(inventoryItem,posX,posY))
         {
@@ -93,7 +108,8 @@ public class ItemGrid : MonoBehaviour
         Vector2 position = CalculatePositionOnGrid(inventoryItem, posX, posY);
 
         rectTransform.localPosition = position;
-        AddValue(inventoryItem.itemData.itemID);
+        if(isUpgrade == false)
+            AddValue(inventoryItem.itemData.itemID);
 
         return true;
     }
@@ -101,10 +117,11 @@ public class ItemGrid : MonoBehaviour
     public Vector2 CalculatePositionOnGrid(InventoryItem inventoryItem, int posX, int posY)
     {
         Vector2 position = new Vector2();
-        position.x = posX * tileSizeWidth + tileSizeWidth * inventoryItem.Width / 2;
-        position.y = -(posY * tileSizeHeight + tileSizeHeight * inventoryItem.Height / 2);
+        position.x = posX * tileSizeWidth + tileSizeWidth * inventoryItem.Width / 2 - rectTransform.rect.width * rectTransform.pivot.x;
+        position.y = -(posY * tileSizeHeight + tileSizeHeight * inventoryItem.Height / 2) + rectTransform.rect.height * rectTransform.pivot.y;
         return position;
     }
+
 
     private bool OverlapCheck(int posX, int posY, int width, int height)
     {
@@ -230,21 +247,21 @@ public class ItemGrid : MonoBehaviour
         }
     }
     
-    public bool AddItem(int itemID)
+    public bool AddItem(int itemID, bool isUpgrade = false)
     {
         InventoryItem inventoryItem = Instantiate(ItemDB.Instance.itemPrefab).GetComponent<InventoryItem>();
         inventoryItem.Set(itemID);
         Vector2Int? posOnGrid = FindSpaceForObject(inventoryItem);
         if (posOnGrid != null)
         {
-            PlaceItem(inventoryItem, posOnGrid.Value.x, posOnGrid.Value.y);
+            PlaceItem(inventoryItem, posOnGrid.Value.x, posOnGrid.Value.y, isUpgrade);
             return true;
         }
         inventoryItem.Rotate();
         posOnGrid = FindSpaceForObject(inventoryItem);
         if (posOnGrid != null)
         {
-            PlaceItem(inventoryItem, posOnGrid.Value.x, posOnGrid.Value.y);
+            PlaceItem(inventoryItem, posOnGrid.Value.x, posOnGrid.Value.y, isUpgrade);
             return true;
         }
         return false;
