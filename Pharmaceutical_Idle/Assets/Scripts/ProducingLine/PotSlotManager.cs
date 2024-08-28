@@ -21,9 +21,6 @@ public class PotSlotManager : Singleton<PotSlotManager>
     {
         imageTransform = GetComponent<RectTransform>();
         closePosition = imageTransform.anchoredPosition;
-        
-        pots[0].SetActivePot();
-        ActiveGridSlot(0);
     }
 
     public void BuyGridSlot(int gridSlotIndex)

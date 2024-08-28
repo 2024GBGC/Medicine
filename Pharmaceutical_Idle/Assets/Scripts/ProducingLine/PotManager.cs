@@ -7,14 +7,20 @@ using UnityEngine.UI;
 public class PotManager : MonoBehaviour
 {
     public bool isActive = false;
+    private RectTransform rectTransform;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject PotObject;
     [SerializeField] private ItemGrid itemGrid;
     [SerializeField] private int potionPrice;
     [SerializeField] private Button activeButton;
-    [SerializeField] private Slider progressSlider; // 슬라이더 추가
+    [SerializeField] private Image progressImage; // Fill Amount을 표시할 이미지
     [SerializeField] private int potionCreationTime = 10;
     private Dictionary<int, int> curItemDict;
+
+    private void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
 
     public void SetActivePot()
     {
@@ -25,6 +31,9 @@ public class PotManager : MonoBehaviour
     public void TogglePot(bool isActive)
     {
         canvasGroup.alpha = isActive ? 1 : 0;
+        canvasGroup.blocksRaycasts = isActive;
+        canvasGroup.interactable = isActive;
+        rectTransform.SetAsLastSibling();
     }
 
     private void SetItem()
@@ -33,7 +42,7 @@ public class PotManager : MonoBehaviour
         GenerateItem();
         AutoGenerate();
     }
-    
+
     private void GenerateItem()
     {
         potionPrice = 0;
@@ -42,7 +51,7 @@ public class PotManager : MonoBehaviour
             potionPrice += ItemDB.Instance.GetItemByID(ingredient.Key).itemPrice * ingredient.Value;
         }
     }
-    
+
     private void AutoGenerate()
     {
         StartCoroutine(MakePotion());
@@ -57,28 +66,32 @@ public class PotManager : MonoBehaviour
             if (!MainInventory.Instance.UseItem(ingredient.Key, ingredient.Value))
             {
                 Debug.Log("Not Enough Ingredients");
-                StopCoroutine(MakePotion());
                 yield break; // 코루틴 종료
             }
         }
+
+        // 이미지 초기화
+        progressImage.fillAmount = 0; // 처음에 0으로 설정
+
+        // 포션 생성 시작
+        yield return StartCoroutine(UpdateProgress());
         
-        // 슬라이더 초기화
-        progressSlider.maxValue = potionCreationTime;
-        progressSlider.value = potionCreationTime;
-
-        // 슬라이더 업데이트
-        float timeRemaining = potionCreationTime;
-        while (timeRemaining > 0)
-        {
-            progressSlider.value = timeRemaining;
-            yield return new WaitForSeconds(1);
-            timeRemaining -= 1;
-        }
-
         // 포션 생성 완료
         Debug.Log("Create Complete");
         MainInventory.Instance.IncreaseCredit(potionPrice);
         StartCoroutine(MakePotion()); // 코루틴 재시작
+    }
+
+    IEnumerator UpdateProgress()
+    {
+        float elapsedTime = 0; // 경과 시간
+        while (elapsedTime < potionCreationTime)
+        {
+            elapsedTime += Time.deltaTime; // 프레임에 따라 경과 시간 증가
+            progressImage.fillAmount = elapsedTime / potionCreationTime; // fillAmount 업데이트
+            yield return null; // 다음 프레임까지 대기
+        }
+        progressImage.fillAmount = 1; // 마지막에 fillAmount를 1로 설정하여 완료 표시
     }
 
     public void UpgradePot(bool isFireUpgrade)
