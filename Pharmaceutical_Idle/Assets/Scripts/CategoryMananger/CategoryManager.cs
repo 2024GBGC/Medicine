@@ -28,15 +28,21 @@ public class CategoryManager : MonoBehaviour
         foreach (var category in categoryObjects)
         {
             category.GetComponent<CanvasGroup>().alpha = 0;
+            category.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            category.GetComponent<CanvasGroup>().interactable = false;
         }
         if(currentCategoryIndex == categoryIndex)
         {
             currentCategoryIndex = -1;
             categoryObjects[categoryIndex].GetComponent<CanvasGroup>().alpha = 0;
+            categoryObjects[categoryIndex].GetComponent<CanvasGroup>().blocksRaycasts = false;
+            categoryObjects[categoryIndex].GetComponent<CanvasGroup>().interactable = false;
             return;
         }
 
         categoryObjects[categoryIndex].GetComponent<CanvasGroup>().alpha = 1;
+        categoryObjects[categoryIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
+        categoryObjects[categoryIndex].GetComponent<CanvasGroup>().interactable = true;
         currentCategoryIndex = categoryIndex;
         categoryObjects[categoryIndex].GetComponent<RectTransform>().SetAsLastSibling();
     }
