@@ -148,7 +148,7 @@ public class ItemGrid : MonoBehaviour
         return pickUpItem;
     }
 
-    private void CleanGridReference(InventoryItem item)
+    protected void CleanGridReference(InventoryItem item)
     {
         for (int ix = 0; ix < item.Width; ix++)
         {
