@@ -14,12 +14,17 @@ public class PotManager : MonoBehaviour
     [SerializeField] private int potionPrice;
     [SerializeField] private Button activeButton;
     [SerializeField] private Image progressImage; // Fill Amount을 표시할 이미지
+    [SerializeField] private Image emptyFlaskImage;
     [SerializeField] private int potionCreationTime = 10;
     private Dictionary<int, int> curItemDict;
+
+    private Vector2 deltaFlaskSize;
 
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        deltaFlaskSize = new Vector2(emptyFlaskImage.rectTransform.sizeDelta.x/3,
+            emptyFlaskImage.rectTransform.sizeDelta.y/3);
     }
 
     public void SetActivePot()
@@ -105,6 +110,8 @@ public class PotManager : MonoBehaviour
         {
             itemGrid.UpgradePot();
             Debug.Log(this.name + " Upgrade Size Complete!");
+            emptyFlaskImage.rectTransform.sizeDelta += deltaFlaskSize;
+            progressImage.rectTransform.sizeDelta += deltaFlaskSize;
         }
     }
 }
