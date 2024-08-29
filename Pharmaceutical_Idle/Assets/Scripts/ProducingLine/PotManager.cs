@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class PotManager : MonoBehaviour
 {
     public bool isActive = false;
+    [SerializeField] private Image activeImage;
+    
+    public int activePrice = 1000;
     private RectTransform rectTransform;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject PotObject;
@@ -30,6 +33,7 @@ public class PotManager : MonoBehaviour
     public void SetActivePot()
     {
         isActive = true;
+        activeImage.gameObject.SetActive(false);
         activeButton.onClick.AddListener(SetItem);
     }
 

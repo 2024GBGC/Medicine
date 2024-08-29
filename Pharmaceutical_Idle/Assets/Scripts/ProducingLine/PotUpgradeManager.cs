@@ -4,13 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PotUpgradeManager : MonoBehaviour
+public class PotUpgradeManager : Singleton<PotUpgradeManager>
 {
+    public List<Button> activePotButtons;
     [SerializeField] private List<Button> upgradeFireButtons;
     [SerializeField] private List<Button> upgradeSizeButtons;
 
     private void Start()
     {
+        foreach (var button in activePotButtons)
+        {
+            button.onClick.AddListener(() =>
+            {
+                PotSlotManager.Instance.BuyGridSlot(activePotButtons.IndexOf(button));
+            });
+        }
+        
         foreach (var button in upgradeSizeButtons)
         {
             button.onClick.AddListener(() =>

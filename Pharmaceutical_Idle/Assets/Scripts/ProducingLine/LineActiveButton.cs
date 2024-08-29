@@ -9,23 +9,12 @@ public class LineActiveButton : MonoBehaviour
 
     private void Start()
     {
-        activeButton.onClick.AddListener(BuyLine);
-    }
-
-    private void BuyLine()
-    {
-        if (MainInventory.Instance.credit >= linePrice)
-        {
-            MainInventory.Instance.credit -= linePrice;
-            PotSlotManager.Instance.BuyGridSlot(currentLine);
-            // button binding
-            activeButton.onClick.RemoveAllListeners();
-            activeButton.onClick.AddListener(ActiveLine);
-        }
+        activeButton.onClick.AddListener(ActiveLine);
     }
 
     private void ActiveLine()
     {
-        PotSlotManager.Instance.ActiveGridSlot(currentLine);
+        if(PotSlotManager.Instance.pots[currentLine].isActive)
+            PotSlotManager.Instance.ActiveGridSlot(currentLine);
     }
 }

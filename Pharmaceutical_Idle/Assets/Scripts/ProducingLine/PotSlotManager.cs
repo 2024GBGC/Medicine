@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class PotSlotManager : Singleton<PotSlotManager>
 {
-    [SerializeField] private List<PotManager> pots;
+    public List<PotManager> pots;
     
     private RectTransform imageTransform;
     private float slideDuration = 0.5f;
@@ -25,6 +25,14 @@ public class PotSlotManager : Singleton<PotSlotManager>
 
     public void BuyGridSlot(int gridSlotIndex)
     {
+        Debug.Log("BUY SLOT : " + gridSlotIndex);
+        if(MainInventory.Instance.credit < pots[gridSlotIndex].activePrice)
+        {
+            Debug.Log("Not enough credit");
+            return;
+        }
+        MainInventory.Instance.credit -= pots[gridSlotIndex].activePrice;
+        PotUpgradeManager.Instance.activePotButtons[gridSlotIndex].gameObject.SetActive(false);
         pots[gridSlotIndex].SetActivePot();
     }
     
