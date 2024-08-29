@@ -44,6 +44,11 @@ public class PotManager : MonoBehaviour
     private void SetItem()
     {
         curItemDict = itemGrid.GetItemDict();
+        if(curItemDict.Keys.Count == 0)
+        {
+            Debug.Log("No Item in Pot");
+            return;
+        }
         GenerateItem();
         AutoGenerate();
     }
