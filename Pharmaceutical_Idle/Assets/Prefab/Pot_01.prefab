@@ -647,6 +647,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+  activeImage: {fileID: 0}
+  activePrice: 1000
   canvasGroup: {fileID: 6222393519302634653}
   PotObject: {fileID: 8645111078792222639}
   itemGrid: {fileID: 1102526515350415948}
@@ -655,6 +657,10 @@ MonoBehaviour:
   progressImage: {fileID: 3241926864418990988}
   emptyFlaskImage: {fileID: 1637086203990489842}
   potionCreationTime: 10
+  TableFlaskImage_Fill: {fileID: 0}
+  TableFlaskImage_Empty: {fileID: 0}
+  particleImage: {fileID: 0}
+  completePill: {fileID: 7165792790100687385, guid: f144b6896ad2244b2b71aae12f756ed1, type: 3}
 --- !u!222 &2278979477286615653
 CanvasRenderer:
   m_ObjectHideFlags: 0

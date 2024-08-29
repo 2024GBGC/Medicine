@@ -66,10 +66,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "\uC0DD\uC0B0\uC18D\uB3C4\uC99D"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0f3d0821fe08abe4cbd60b2976aa2f99, type: 2}
+  m_sharedMaterial: {fileID: -3575965377492986240, guid: 0f3d0821fe08abe4cbd60b2976aa2f99, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -323,10 +323,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "\uADF8\uB9AC\uB4DC \uC99D\uAC00"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0f3d0821fe08abe4cbd60b2976aa2f99, type: 2}
+  m_sharedMaterial: {fileID: -3575965377492986240, guid: 0f3d0821fe08abe4cbd60b2976aa2f99, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 2774865783384750286}
   - component: {fileID: 3603877683437986312}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: GridUpgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 6757060472581822657}
   - component: {fileID: 5140236738381785281}
   m_Layer: 5
-  m_Name: Button
+  m_Name: FireUpgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -858,7 +858,7 @@ GameObject:
   - component: {fileID: 4696677309439076917}
   - component: {fileID: 5783311173208616129}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: ButtonSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

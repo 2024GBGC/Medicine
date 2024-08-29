@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AssetKits.ParticleImage;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,11 +23,15 @@ public class PotManager : MonoBehaviour
     [SerializeField] private int potionCreationTime = 10;
     private Dictionary<int, int> curItemDict;
 
+    private Color createPillColor;
+
     private Vector2 deltaFlaskSize;
     
     [Header("Table")]
     [SerializeField] private Image TableFlaskImage_Fill; // Fill Amount을 표시할 이미지
     [SerializeField] private Image TableFlaskImage_Empty;
+    [SerializeField] private ParticleImage particleImage;
+    [SerializeField] private GameObject completePill;
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -69,6 +74,7 @@ public class PotManager : MonoBehaviour
         foreach (var ingredient in curItemDict)
         {
             potionPrice += ItemDB.Instance.GetItemByID(ingredient.Key).itemPrice * ingredient.Value;
+            createPillColor += ItemDB.Instance.GetItemByID(ingredient.Key).color;
         }
     }
 
@@ -114,6 +120,13 @@ public class PotManager : MonoBehaviour
         }
         progressImage.fillAmount = 1; // 마지막에 fillAmount를 1로 설정하여 완료 표시
         TableFlaskImage_Fill.fillAmount = 1;
+        particleImage.startColor = createPillColor;
+        particleImage.Play();
+        PillManager pillManager = Instantiate(completePill, particleImage.gameObject.transform.position, Quaternion.identity).GetComponent<PillManager>();
+        if (pillManager)
+        {
+            pillManager._color = createPillColor;
+        }
     }
 
     public void UpgradePot(bool isFireUpgrade)

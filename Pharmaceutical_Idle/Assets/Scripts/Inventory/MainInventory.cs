@@ -68,7 +68,7 @@ public class MainInventory : Singleton<MainInventory>
     {
         if (creditText != null)
         {
-            creditText.text = $"Credit: {credit}"; // 크레딧 값을 TextMeshProUGUI에 표시
+            creditText.text = credit.ToString(); // 크레딧 값을 TextMeshProUGUI에 표시
         }
         else
         {

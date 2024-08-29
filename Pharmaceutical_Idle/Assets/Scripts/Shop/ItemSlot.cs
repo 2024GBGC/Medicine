@@ -5,7 +5,7 @@ using TMPro;
 
 public class ItemSlot : MonoBehaviour
 {
-    [SerializeField] private int curItemLevel;
+    private int curItemLevel = 1;
     [SerializeField] private int upgradeCost;
     [SerializeField] private int curSlotItemID;
     [SerializeField] public ShopItemGrid itemGrid;
@@ -68,8 +68,10 @@ public class ItemSlot : MonoBehaviour
     
     private void UpgradeItem()
     {
+        if(MainInventory.Instance.credit < upgradeCost) return;
         curItemLevel += 1;
         itemTimer -= 1;
+        MainInventory.Instance.DecreaseCredit(upgradeCost);
         upgradeCost = curItemLevel * curItemLevel * ItemDB.Instance.GetItemByID(curSlotItemID).itemCost;
         itemCost.text = upgradeCost.ToString();
         // 새 타이머 값에 맞게 fillAmount를 초기화
