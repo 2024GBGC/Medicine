@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e61873ec82bde7b469a5075fbdb0aba0, type: 3}
-  m_Name: Potion
+  m_Name: Ingredient_02
   m_EditorClassIdentifier: 
-  itemID: 0
+  itemID: 2
   itemName: 
-  itemCost: 0
-  itemPrice: 100
+  itemCost: 1200
+  itemPrice: 400
   width: 1
   height: 1
   itemIcon: {fileID: 21300000, guid: 59d7b0a7d28554a47bef3aebca9d1c18, type: 3}
