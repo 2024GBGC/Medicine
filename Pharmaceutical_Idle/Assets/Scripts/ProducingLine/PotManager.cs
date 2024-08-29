@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,10 @@ public class PotManager : MonoBehaviour
     private Dictionary<int, int> curItemDict;
 
     private Vector2 deltaFlaskSize;
-
+    
+    [Header("Table")]
+    [SerializeField] private Image TableFlaskImage_Fill; // Fill Amount을 표시할 이미지
+    [SerializeField] private Image TableFlaskImage_Empty;
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -34,6 +38,8 @@ public class PotManager : MonoBehaviour
     {
         isActive = true;
         activeImage.gameObject.SetActive(false);
+        TableFlaskImage_Empty.gameObject.SetActive(true);
+        TableFlaskImage_Fill.fillAmount = 0;
         activeButton.onClick.AddListener(SetItem);
     }
 
@@ -86,7 +92,7 @@ public class PotManager : MonoBehaviour
 
         // 이미지 초기화
         progressImage.fillAmount = 0; // 처음에 0으로 설정
-
+        TableFlaskImage_Fill.fillAmount = 0;
         // 포션 생성 시작
         yield return StartCoroutine(UpdateProgress());
         
@@ -103,9 +109,11 @@ public class PotManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime; // 프레임에 따라 경과 시간 증가
             progressImage.fillAmount = elapsedTime / potionCreationTime; // fillAmount 업데이트
+            TableFlaskImage_Fill.fillAmount = elapsedTime / potionCreationTime;
             yield return null; // 다음 프레임까지 대기
         }
         progressImage.fillAmount = 1; // 마지막에 fillAmount를 1로 설정하여 완료 표시
+        TableFlaskImage_Fill.fillAmount = 1;
     }
 
     public void UpgradePot(bool isFireUpgrade)
