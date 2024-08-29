@@ -12,6 +12,11 @@ public class PotManager : MonoBehaviour
     [SerializeField] private Image activeImage;
     
     public int activePrice = 1000;
+    public int fireLevel = 1;
+    public int upgradeFirePrice = 1000;
+    public int slotLevel = 1;
+    public int upgradeSlotPrice = 1000;
+    
     private RectTransform rectTransform;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject PotObject;
@@ -23,7 +28,8 @@ public class PotManager : MonoBehaviour
     [SerializeField] private int potionCreationTime = 10;
     private Dictionary<int, int> curItemDict;
 
-    private Color createPillColor;
+    public Color createPillColor;
+    [SerializeField] private PillInfoManager pillInfoManager;
 
     private Vector2 deltaFlaskSize;
     
@@ -31,6 +37,7 @@ public class PotManager : MonoBehaviour
     [SerializeField] private Image TableFlaskImage_Fill; // Fill Amount을 표시할 이미지
     [SerializeField] private Image TableFlaskImage_Empty;
     [SerializeField] private ParticleImage particleImage;
+    [SerializeField] private Transform pillTransform;
     [SerializeField] private GameObject completePill;
     private void Start()
     {
@@ -71,12 +78,39 @@ public class PotManager : MonoBehaviour
     private void GenerateItem()
     {
         potionPrice = 0;
+        createPillColor = new Color(0,0,0);
         foreach (var ingredient in curItemDict)
         {
             potionPrice += ItemDB.Instance.GetItemByID(ingredient.Key).itemPrice * ingredient.Value;
-            createPillColor += ItemDB.Instance.GetItemByID(ingredient.Key).color;
+            createPillColor += ItemDB.Instance.GetItemByID(ingredient.Key).color * ingredient.Value;
         }
+        
+        
+        
+        Debug.Log("R : " + createPillColor.r);
+        Debug.Log("G : " + createPillColor.g);
+        Debug.Log("B : " + createPillColor.b);
+
+        if (createPillColor.r > 1f)
+        {
+            potionPrice *= 10;
+        }
+        if (createPillColor.g > 1f)
+        {
+            potionPrice *= 10;
+        }
+        if (createPillColor.b > 1f)
+        {
+            potionPrice *= 10;
+        }
+        if (Mathf.Approximately(createPillColor.r, createPillColor.b) && Mathf.Approximately(createPillColor.r, createPillColor.g))
+        {
+            potionPrice *= potionPrice;
+        }
+        
+        pillInfoManager.UpdatePillInfo(createPillColor, potionPrice, potionCreationTime);
     }
+    
 
     private void AutoGenerate()
     {
@@ -86,6 +120,11 @@ public class PotManager : MonoBehaviour
 
     IEnumerator MakePotion()
     {
+        // 이미지 초기화
+        progressImage.fillAmount = 0; // 처음에 0으로 설정
+        TableFlaskImage_Fill.fillAmount = 0;
+        
+        
         // 재료가 충분한지 확인
         foreach (var ingredient in curItemDict)
         {
@@ -96,9 +135,6 @@ public class PotManager : MonoBehaviour
             }
         }
 
-        // 이미지 초기화
-        progressImage.fillAmount = 0; // 처음에 0으로 설정
-        TableFlaskImage_Fill.fillAmount = 0;
         // 포션 생성 시작
         yield return StartCoroutine(UpdateProgress());
         
@@ -121,8 +157,9 @@ public class PotManager : MonoBehaviour
         progressImage.fillAmount = 1; // 마지막에 fillAmount를 1로 설정하여 완료 표시
         TableFlaskImage_Fill.fillAmount = 1;
         particleImage.startColor = createPillColor;
+        
         particleImage.Play();
-        PillManager pillManager = Instantiate(completePill, particleImage.gameObject.transform.position, Quaternion.identity).GetComponent<PillManager>();
+        PillManager pillManager = Instantiate(completePill, pillTransform).GetComponent<PillManager>();
         if (pillManager)
         {
             pillManager._color = createPillColor;
@@ -131,14 +168,27 @@ public class PotManager : MonoBehaviour
 
     public void UpgradePot(bool isFireUpgrade)
     {
+        int upgradePrice = isFireUpgrade ? upgradeFirePrice : upgradeSlotPrice;
+        
+        if(MainInventory.Instance.credit < upgradePrice)
+        {
+            Debug.Log("Not enough credit");
+            return;
+        }
+        MainInventory.Instance.DecreaseCredit(upgradePrice);
+        
         if (isFireUpgrade)
         {
             potionCreationTime -= 1;
+            fireLevel++;
+            upgradeFirePrice = fireLevel * fireLevel * upgradeFirePrice / 2;
             Debug.Log(this.name + " Upgrade Fire Complete! : " + potionCreationTime);
         }
         else
         {
             itemGrid.UpgradePot();
+            slotLevel++;
+            upgradeSlotPrice = slotLevel * slotLevel * upgradeSlotPrice * 2;
             Debug.Log(this.name + " Upgrade Size Complete!");
             emptyFlaskImage.rectTransform.sizeDelta += deltaFlaskSize;
             progressImage.rectTransform.sizeDelta += deltaFlaskSize;

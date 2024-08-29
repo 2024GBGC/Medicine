@@ -21,6 +21,12 @@ public class PotSlotManager : Singleton<PotSlotManager>
     {
         imageTransform = GetComponent<RectTransform>();
         closePosition = imageTransform.anchoredPosition;
+
+        for (int i = 0; i < 3; i++)
+        {
+            PotUpgradeManager.Instance.upgradeFireTexts[i].text = pots[i].upgradeFirePrice.ToString();
+            PotUpgradeManager.Instance.upgradeSlotTexts[i].text = pots[i].upgradeSlotPrice.ToString();
+        }
     }
 
     public void BuyGridSlot(int gridSlotIndex)
@@ -31,7 +37,7 @@ public class PotSlotManager : Singleton<PotSlotManager>
             Debug.Log("Not enough credit");
             return;
         }
-        MainInventory.Instance.credit -= pots[gridSlotIndex].activePrice;
+        MainInventory.Instance.DecreaseCredit(pots[gridSlotIndex].activePrice);
         PotUpgradeManager.Instance.activePotButtons[gridSlotIndex].gameObject.SetActive(false);
         pots[gridSlotIndex].SetActivePot();
     }
@@ -63,6 +69,30 @@ public class PotSlotManager : Singleton<PotSlotManager>
     public void UpgradePot(int index, bool isFireUpgrade)
     {
         pots[index].UpgradePot(isFireUpgrade);
+
+        if (isFireUpgrade)
+        {
+            if (pots[index].fireLevel >= 10)
+            {
+                PotUpgradeManager.Instance.upgradeFireTexts[index].text = "MaxLevel";
+                PotUpgradeManager.Instance.upgradeFireButtons[index].interactable = false;
+                return;
+            }
+        }
+        else
+        {
+            if (pots[index].slotLevel >= 3)
+            {
+                PotUpgradeManager.Instance.upgradeSlotTexts[index].text = "MaxLevel";
+                PotUpgradeManager.Instance.upgradeSizeButtons[index].interactable = false;
+                return;
+            }
+        }
+
+        if (isFireUpgrade)
+            PotUpgradeManager.Instance.upgradeFireTexts[index].text = pots[index].upgradeFirePrice.ToString();
+        else
+            PotUpgradeManager.Instance.upgradeSlotTexts[index].text = pots[index].upgradeSlotPrice.ToString();
     }
     
     IEnumerator SlideImage(Vector3 start, Vector3 end)

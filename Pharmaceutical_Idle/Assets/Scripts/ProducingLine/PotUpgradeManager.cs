@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PotUpgradeManager : Singleton<PotUpgradeManager>
 {
     public List<Button> activePotButtons;
-    [SerializeField] private List<Button> upgradeFireButtons;
-    [SerializeField] private List<Button> upgradeSizeButtons;
-
+    public List<Button> upgradeFireButtons;
+    public List<Button> upgradeSizeButtons;
+    public List<TextMeshProUGUI> upgradeFireTexts;
+    public List<TextMeshProUGUI> upgradeSlotTexts;
     private void Start()
     {
         foreach (var button in activePotButtons)

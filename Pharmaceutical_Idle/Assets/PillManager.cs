@@ -7,7 +7,7 @@ public class PillManager : MonoBehaviour
     [SerializeField] private Image pillCapsuleImage;
     public Color _color;
     
-    public float jumpHeight = 10f;  // 튀어오르는 높이
+    public float jumpHeight = 100f;  // 튀어오르는 높이
     public float jumpDuration = 0.5f;  // 튀어오르는 시간
 
     private void Start()

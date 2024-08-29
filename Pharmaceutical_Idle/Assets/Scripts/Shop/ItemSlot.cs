@@ -31,20 +31,22 @@ public class ItemSlot : MonoBehaviour
 
     private void StartProcessing()
     {
-        StartCoroutine(Processing());
+        Debug.Log("StartProcessing");
         buyButton.onClick.RemoveAllListeners();
+        StartCoroutine(Processing());
         buyButton.onClick.AddListener(UpgradeItem);
     }
     
     IEnumerator Processing()
     {
+        float curCreateTime = itemTimer;
         float timeRemaining = itemTimer;
         float elapsedTime = 0f;
 
         while (timeRemaining > 0)
         {
             elapsedTime += Time.deltaTime; // 경과 시간 업데이트
-            progressImage.fillAmount = Mathf.Clamp01(elapsedTime / itemTimer); // fillAmount 업데이트
+            progressImage.fillAmount = Mathf.Clamp01(elapsedTime / curCreateTime); // fillAmount 업데이트
             yield return null; // 다음 프레임까지 대기
             timeRemaining -= Time.deltaTime; // 실제 경과 시간 감소
         }
@@ -71,11 +73,16 @@ public class ItemSlot : MonoBehaviour
         if(MainInventory.Instance.credit < upgradeCost) return;
         curItemLevel += 1;
         itemTimer -= 1;
+        if (itemTimer <= 1)
+        {
+            upgradeCost = 0;
+            itemCost.text = "Max Level";
+            buyButton.interactable = false;
+            return;
+        }
         MainInventory.Instance.DecreaseCredit(upgradeCost);
         upgradeCost = curItemLevel * curItemLevel * ItemDB.Instance.GetItemByID(curSlotItemID).itemCost;
         itemCost.text = upgradeCost.ToString();
-        // 새 타이머 값에 맞게 fillAmount를 초기화
-        progressImage.fillAmount = 0;
     }
     
     private void UpdateItemCount()
