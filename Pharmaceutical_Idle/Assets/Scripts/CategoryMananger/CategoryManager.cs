@@ -45,6 +45,7 @@ public class CategoryManager : MonoBehaviour
         categoryObjects[categoryIndex].GetComponent<CanvasGroup>().interactable = true;
         currentCategoryIndex = categoryIndex;
         categoryObjects[categoryIndex].GetComponent<RectTransform>().SetAsLastSibling();
+        SettingsManager.Instance.buttonSfxSource.Play();
     }
     
 }

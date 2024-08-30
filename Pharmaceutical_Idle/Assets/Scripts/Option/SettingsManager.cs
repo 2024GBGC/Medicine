@@ -2,13 +2,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsManager : MonoBehaviour
+public class SettingsManager : Singleton<SettingsManager>
 {
     public Slider bgmSlider;
     public Slider sfxSlider;
     public TMP_Dropdown resolutionDropdown;
     public AudioSource bgmSource;
-    public AudioSource sfxSource;
+    public AudioSource buttonSfxSource;
+    public AudioSource upgradeSfxSource;
+    public AudioSource coinSfxSource;
 
     void Start()
     {
@@ -21,7 +23,15 @@ public class SettingsManager : MonoBehaviour
 
         sfxSlider.onValueChanged.AddListener(delegate {
             PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value);
-            sfxSource.volume = sfxSlider.value;
+            buttonSfxSource.volume = sfxSlider.value;
+        });
+        sfxSlider.onValueChanged.AddListener(delegate {
+            PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value);
+            upgradeSfxSource.volume = sfxSlider.value;
+        });
+        sfxSlider.onValueChanged.AddListener(delegate {
+            PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value);
+            coinSfxSource.volume = sfxSlider.value;
         });
 
         resolutionDropdown.onValueChanged.AddListener(delegate {

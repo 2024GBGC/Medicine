@@ -93,6 +93,7 @@ public class PotSlotManager : Singleton<PotSlotManager>
             PotUpgradeManager.Instance.upgradeFireTexts[index].text = pots[index].upgradeFirePrice.ToString();
         else
             PotUpgradeManager.Instance.upgradeSlotTexts[index].text = pots[index].upgradeSlotPrice.ToString();
+        SettingsManager.Instance.upgradeSfxSource.Play();
     }
     
     IEnumerator SlideImage(Vector3 start, Vector3 end)

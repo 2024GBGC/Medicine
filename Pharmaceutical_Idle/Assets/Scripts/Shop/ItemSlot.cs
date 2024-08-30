@@ -71,6 +71,7 @@ public class ItemSlot : MonoBehaviour
     private void UpgradeItem()
     {
         if(MainInventory.Instance.credit < upgradeCost) return;
+        SettingsManager.Instance.upgradeSfxSource.Play();
         curItemLevel += 1;
         itemTimer -= 1;
         if (itemTimer <= 1)

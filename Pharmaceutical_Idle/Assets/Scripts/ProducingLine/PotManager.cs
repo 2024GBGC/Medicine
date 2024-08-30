@@ -33,6 +33,8 @@ public class PotManager : MonoBehaviour
 
     private Vector2 deltaFlaskSize;
     
+    private Coroutine currentCoroutine;
+    
     [Header("Table")]
     [SerializeField] private Image TableFlaskImage_Fill; // Fill Amount을 표시할 이미지
     [SerializeField] private Image TableFlaskImage_Empty;
@@ -114,7 +116,11 @@ public class PotManager : MonoBehaviour
 
     private void AutoGenerate()
     {
-        StartCoroutine(MakePotion());
+        if (currentCoroutine != null)
+        {
+            return;
+        }
+        currentCoroutine = StartCoroutine(MakePotion());
         Debug.Log("MakePotion Coroutine Started!");
     }
 
@@ -141,7 +147,7 @@ public class PotManager : MonoBehaviour
         // 포션 생성 완료
         Debug.Log("Create Complete");
         MainInventory.Instance.IncreaseCredit(potionPrice);
-        StartCoroutine(MakePotion()); // 코루틴 재시작
+        currentCoroutine = StartCoroutine(MakePotion()); // 코루틴 재시작
     }
 
     IEnumerator UpdateProgress()

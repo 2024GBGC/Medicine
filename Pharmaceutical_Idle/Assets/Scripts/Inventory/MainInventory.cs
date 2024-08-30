@@ -42,6 +42,7 @@ public class MainInventory : Singleton<MainInventory>
 
     public void IncreaseCredit(int potionPrice)
     {
+        SettingsManager.Instance.coinSfxSource.Play();
         credit += potionPrice;
         UpdateCreditUI(); // 크레딧 증가 후 UI 업데이트
     }
