@@ -5,7 +5,7 @@ using TMPro;
 
 public class ItemSlot : MonoBehaviour
 {
-    private int curItemLevel = 1;
+    private int curItemLevel = 0;
     [SerializeField] private int upgradeCost;
     [SerializeField] private int curSlotItemID;
     [SerializeField] public ShopItemGrid itemGrid;
@@ -31,6 +31,9 @@ public class ItemSlot : MonoBehaviour
 
     private void StartProcessing()
     {
+        if(MainInventory.Instance.credit < ItemDB.Instance.GetItemByID(curSlotItemID).itemPrice) return;
+        curItemLevel += 1;
+        MainInventory.Instance.DecreaseCredit(ItemDB.Instance.GetItemByID(curSlotItemID).itemPrice);
         Debug.Log("StartProcessing");
         buyButton.onClick.RemoveAllListeners();
         StartCoroutine(Processing());

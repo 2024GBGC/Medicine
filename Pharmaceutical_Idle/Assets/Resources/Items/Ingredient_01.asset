@@ -18,5 +18,5 @@ MonoBehaviour:
   itemPrice: 200
   width: 2
   height: 1
-  itemIcon: {fileID: 21300000, guid: 59d7b0a7d28554a47bef3aebca9d1c18, type: 3}
-  color: {r: 0, g: 0.19607843, b: 0, a: 1}
+  itemIcon: {fileID: 21300000, guid: 163f29dadd94a4d729fed894834c7758, type: 3}
+  color: {r: 0.19607843, g: 0.19607843, b: 0.39215687, a: 1}
