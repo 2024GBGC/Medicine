@@ -4,25 +4,38 @@ public class MaintainFixedAspectRatio : MonoBehaviour
 {
     // 고정할 화면 비율 1280:720 (즉, 16:9)
     private float targetAspectRatio = 16f / 9f;
+    
+    // 이전 화면 크기 저장
+    private int lastScreenWidth;
+    private int lastScreenHeight;
 
     void Start()
     {
+        lastScreenWidth = Screen.width;
+        lastScreenHeight = Screen.height;
         UpdateAspectRatio();
+        StartCoroutine(CheckScreenSizeChange());
     }
 
-    void Update()
+    System.Collections.IEnumerator CheckScreenSizeChange()
     {
-        // 매 프레임마다 화면 비율을 유지하도록 체크
-        if (Screen.width / (float)Screen.height != targetAspectRatio)
+        while (true)
         {
-            UpdateAspectRatio();
+            yield return new WaitForSeconds(1f); // 1초마다 확인
+
+            if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
+            {
+                UpdateAspectRatio();
+                lastScreenWidth = Screen.width;
+                lastScreenHeight = Screen.height;
+            }
         }
     }
 
     void UpdateAspectRatio()
     {
-        int targetHeight= Screen.height;
-        int targetWidth  = Mathf.RoundToInt(targetHeight / targetAspectRatio);
+        int targetHeight = Screen.height;
+        int targetWidth = Mathf.RoundToInt(targetHeight / targetAspectRatio);
 
         if (targetWidth > Screen.width)
         {
