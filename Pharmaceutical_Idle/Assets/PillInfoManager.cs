@@ -25,8 +25,8 @@ public class PillInfoManager : MonoBehaviour
     {
         unlockObject.SetActive(false);
         redColorText.text = $"R: {pillColor.r:F3}";
-        greenColorText.text = $"R: {pillColor.g:F3}";
-        blueColorText.text = $"R: {pillColor.b:F3}";
+        greenColorText.text = $"G: {pillColor.g:F3}";
+        blueColorText.text = $"B: {pillColor.b:F3}";
 
         pillCapsuleImage.color = pillColor;
         

@@ -93,6 +93,10 @@ public class PotManager : MonoBehaviour
         Debug.Log("G : " + createPillColor.g);
         Debug.Log("B : " + createPillColor.b);
 
+        if (Mathf.Approximately(createPillColor.r, createPillColor.b) && Mathf.Approximately(createPillColor.r, createPillColor.g))
+        {
+            potionPrice *= potionPrice;
+        }
         if (createPillColor.r > 1f)
         {
             potionPrice *= 10;
@@ -104,10 +108,6 @@ public class PotManager : MonoBehaviour
         if (createPillColor.b > 1f)
         {
             potionPrice *= 10;
-        }
-        if (Mathf.Approximately(createPillColor.r, createPillColor.b) && Mathf.Approximately(createPillColor.r, createPillColor.g))
-        {
-            potionPrice *= potionPrice;
         }
         
         pillInfoManager.UpdatePillInfo(createPillColor, potionPrice, potionCreationTime);
