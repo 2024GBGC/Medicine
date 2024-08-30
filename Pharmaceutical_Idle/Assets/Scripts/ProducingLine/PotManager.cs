@@ -13,9 +13,9 @@ public class PotManager : MonoBehaviour
     
     public int activePrice = 1000;
     public int fireLevel = 1;
-    public int upgradeFirePrice = 1000;
+    public long upgradeFirePrice = 1000;
     public int slotLevel = 1;
-    public int upgradeSlotPrice = 1000;
+    public long upgradeSlotPrice = 1000;
     
     private RectTransform rectTransform;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -174,7 +174,7 @@ public class PotManager : MonoBehaviour
 
     public void UpgradePot(bool isFireUpgrade)
     {
-        int upgradePrice = isFireUpgrade ? upgradeFirePrice : upgradeSlotPrice;
+        long upgradePrice = isFireUpgrade ? upgradeFirePrice : upgradeSlotPrice;
         
         if(MainInventory.Instance.credit < upgradePrice)
         {

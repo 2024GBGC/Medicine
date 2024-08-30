@@ -6,7 +6,7 @@ public class MainInventory : Singleton<MainInventory>
 {
     public SerializableDictionary<int, int> _itemDict = new SerializableDictionary<int, int>();
 
-    public int credit;
+    public long credit;
 
     [SerializeField] private TextMeshProUGUI creditText; // TextMeshProUGUI 필드 추가
 
@@ -53,6 +53,11 @@ public class MainInventory : Singleton<MainInventory>
         UpdateCreditUI(); // 크레딧 감소 후 UI 업데이트
     }
 
+    public void DecreaseCredit(long price)
+    {
+        credit -= price;
+        UpdateCreditUI(); // 크레딧 감소 후 UI 업데이트
+    }
     public bool UseItem(int id, int count)
     {
         if (_itemDict.ContainsKey(id) && _itemDict[id] >= count)
